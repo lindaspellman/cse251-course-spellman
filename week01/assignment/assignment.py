@@ -2,7 +2,7 @@
 Course: CSE 251 
 Lesson Week: 01
 File: assignment.py 
-Author: <Add name here>
+Author: Linda Spellman
 
 Purpose: Drawing with Python Turtle
 
@@ -150,7 +150,6 @@ def run_no_threads(tur, log, main_turtle):
 
 def run_with_threads(tur, log, main_turtle):
     """Draw different shapes using threads"""
-
     # Draw Coors system
     tur.pensize(0.5)
     draw_coord_system(tur, 0, 0, size=375)
@@ -162,6 +161,40 @@ def run_with_threads(tur, log, main_turtle):
     # TODO - Start add your code here.
     # You need to use 4 threads where each thread concurrently drawing one type of shape.
     # You are free to change any functions in this code except main()
+    lock = threading.Lock() 
+    # Create threads list
+    threads = []
+    # Create 4 threads, one for each shape drawing function, and append them to threads list
+    t0 = threading.Thread(target=draw_squares, args=(tur, ))
+    threads.append(t0)
+    t1 = threading.Thread(target=draw_circles, args=(tur, ))
+    threads.append(t1)
+    t2 = threading.Thread(target=draw_triangles, args=(tur, ))
+    threads.append(t2)
+    t3 = threading.Thread(target=draw_rectangles, args=(tur, ))
+    threads.append(t3)
+    with lock:
+        # Start all threads
+        for t in threads:
+            t.start()
+        
+        # Wait for them to finish
+        for t in threads:
+            t.join() 
+    # # Start the threads 
+    #     t0.start()
+    #     t0.join()
+    # with lock:
+    #     t1.start()
+    #     t1.join()
+    # with lock:
+    #     t2.start()
+    #     t2.join()
+    # with lock:
+    #     t3.start()
+    #     t3.join()
+
+        # Wait for them to finish
 
     log.step_timer('All drawing commands have been created')
 
@@ -177,6 +210,7 @@ def main():
     """Main function - DO NOT CHANGE"""
 
     log = Log(show_terminal=True)
+
 
     # create a Screen Object
     screen = turtle.Screen()
