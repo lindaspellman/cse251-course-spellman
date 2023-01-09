@@ -92,33 +92,48 @@ def draw_coord_system(tur, x, y, size=300, color='black'):
         tur.backward(size)
         tur.left(90)
 
-def draw_squares(tur):
+def draw_squares(tur,lock=True):
     """Draw a group of squares"""
     for x in range(-300, 350, 200):
         for y in range(-300, 350, 200):
-            draw_square(tur, x - 50, y + 50, 100)
+            if lock:
+                with lock:
+                    draw_square(tur, x - 50, y + 50, 100)
+            else:
+                draw_square(tur, x - 50, y + 50, 100)
 
 
-def draw_circles(tur):
+def draw_circles(tur,lock=True):
     """Draw a group of circles"""
     for x in range(-300, 350, 200):
         for y in range(-300, 350, 200):
-            draw_circle(tur, x, y-2, 50)
+            if lock:
+                with lock:
+                    draw_circle(tur, x, y-2, 50)
+            else:
+                draw_circle(tur, x, y-2, 50)
 
 
-def draw_triangles(tur):
+def draw_triangles(tur,lock=True):
     """Draw a group of triangles"""
     for x in range(-300, 350, 200):
         for y in range(-300, 350, 200):
-            draw_triangle(tur, x-30, y-30+10, 60)
+            if lock:
+                with lock:
+                    draw_triangle(tur, x-30, y-30+10, 60)
+            else:
+                draw_triangle(tur, x-30, y-30+10, 60)
 
 
-def draw_rectangles(tur):
+def draw_rectangles(tur,lock=True):
     """Draw a group of Rectangles"""
     for x in range(-300, 350, 200):
         for y in range(-300, 350, 200):
-            draw_rectangle(tur, x-10, y+5, 20, 15)
-
+            if lock:
+                with lock:
+                    draw_rectangle(tur, x-10, y+5, 20, 15)
+            else:
+                draw_rectangle(tur, x-10, y+5, 20, 15)
 
 def run_no_threads(tur, log, main_turtle):
     """Draw different shapes without using threads"""
@@ -132,10 +147,10 @@ def run_no_threads(tur, log, main_turtle):
     log.start_timer('Start Drawing No Threads')
     tur.move(0, 0)
 
-    draw_squares(tur)
-    draw_circles(tur)
-    draw_triangles(tur)
-    draw_rectangles(tur)
+    draw_squares(tur,lock=False)
+    draw_circles(tur,lock=False)
+    draw_triangles(tur,lock=False)
+    draw_rectangles(tur,lock=False)
 
     log.step_timer('All drawing commands have been created')
 
@@ -157,44 +172,30 @@ def run_with_threads(tur, log, main_turtle):
     log.write('-' * 50)
     log.start_timer('Start Drawing With Threads')
     tur.move(0, 0)
+    lock = threading.Lock() 
 
     # TODO - Start add your code here.
     # You need to use 4 threads where each thread concurrently drawing one type of shape.
     # You are free to change any functions in this code except main()
-    lock = threading.Lock() 
     # Create threads list
     threads = []
     # Create 4 threads, one for each shape drawing function, and append them to threads list
-    t0 = threading.Thread(target=draw_squares, args=(tur, ))
+    t0 = threading.Thread(target=draw_squares, args=(tur,lock))
     threads.append(t0)
-    t1 = threading.Thread(target=draw_circles, args=(tur, ))
+    t1 = threading.Thread(target=draw_circles, args=(tur, lock))
     threads.append(t1)
-    t2 = threading.Thread(target=draw_triangles, args=(tur, ))
+    t2 = threading.Thread(target=draw_triangles, args=(tur, lock))
     threads.append(t2)
-    t3 = threading.Thread(target=draw_rectangles, args=(tur, ))
+    t3 = threading.Thread(target=draw_rectangles, args=(tur,lock))
     threads.append(t3)
-    with lock:
-        # Start all threads
-        for t in threads:
-            t.start()
-        
-        # Wait for them to finish
-        for t in threads:
-            t.join() 
-    # # Start the threads 
-    #     t0.start()
-    #     t0.join()
-    # with lock:
-    #     t1.start()
-    #     t1.join()
-    # with lock:
-    #     t2.start()
-    #     t2.join()
-    # with lock:
-    #     t3.start()
-    #     t3.join()
 
-        # Wait for them to finish
+    # Start all threads
+    for t in threads:
+        t.start()
+
+    # Wait for them to finish
+    for t in threads:
+        t.join() 
 
     log.step_timer('All drawing commands have been created')
 
@@ -210,7 +211,6 @@ def main():
     """Main function - DO NOT CHANGE"""
 
     log = Log(show_terminal=True)
-
 
     # create a Screen Object
     screen = turtle.Screen()
