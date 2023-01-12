@@ -19,7 +19,7 @@ import json
 from cse251 import *
 
 if __name__ == '__main__':
-
+    
     response = requests.get(r'https://deckofcardsapi.com/api/deck/new/')
 
     # Check the status code to see if the request succeeded.
