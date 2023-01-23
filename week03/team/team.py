@@ -159,10 +159,34 @@ def main():
     board.fill_in_dots()
     board.display()
 
+
+    # start = time.perf_counter()
+    # for word in words:
+    #     if not board.find_word(word):
+    #         print(f'Error: Could not find "{word}"')
+
+    ###############################################
+    '''
+    CHANGES
+    '''
     start = time.perf_counter()
+    processes = []
+    for word in words:
+        p = mp.Process(target=board.find_word, args=(word,))
+        processes.append(p)
+        
+
     for word in words:
         if not board.find_word(word):
             print(f'Error: Could not find "{word}"')
+
+    for p in processes:
+        p.start()
+    for p in processes:
+        p.join()
+
+    
+    ################################################
     
     total_time = time.perf_counter() - start
 
@@ -172,3 +196,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+    
