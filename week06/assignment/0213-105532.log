@@ -1,0 +1,9 @@
+10:55:32| Marble count     = 1000
+10:55:32| Marble delay     = 0.01
+10:55:32| Bag count        = 7
+10:55:32| Bagger delay     = 0.05
+10:55:32| Assembler delay  = 0.05
+10:55:32| Wrapper delay    = 0.05
+10:55:32| Create the processes
+10:55:32| Starting the processes
+10:55:32| Waiting for processes to finish

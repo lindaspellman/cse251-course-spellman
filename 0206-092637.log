@@ -1,0 +1,33 @@
+09:26:38| before get_max_size - 1
+09:26:38| before self.dealer_states[size] += 1
+09:26:38| size: 0
+09:26:38| size: 0
+09:26:38| after self.dealer_states[size] += 1
+09:26:38| after [size] -= 1
+09:26:38| before get_max_size - 1
+09:26:38| before self.dealer_states[size] += 1
+09:26:38| size: 0
+09:26:38| size: 0
+09:26:38| after self.dealer_states[size] += 1
+09:26:38| after [size] -= 1
+09:26:38| before get_max_size - 1
+09:26:38| before self.dealer_states[size] += 1
+09:26:38| size: 0
+09:26:38| size: 0
+09:26:38| after self.dealer_states[size] += 1
+09:26:38| after [size] -= 1
+09:26:38| before get_max_size - 1
+09:26:38| before self.dealer_states[size] += 1
+09:26:38| size: 0
+09:26:38| size: 0
+09:26:38| after self.dealer_states[size] += 1
+09:26:38| after [size] -= 1
+09:26:38| before get_max_size - 1
+09:26:38| before self.dealer_states[size] += 1
+09:26:38| size: 0
+09:26:38| size: 0
+09:26:38| after self.dealer_states[size] += 1
+09:26:38| after [size] -= 1
+09:26:38| before get_max_size - 1
+09:26:38| before self.dealer_states[size] += 1
+09:26:38| size: 1

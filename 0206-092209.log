@@ -1,0 +1,14 @@
+09:22:10| before get_max_size - 1
+09:22:10| before self.dealer_states[size] += 1
+09:22:10| after possible break
+09:22:10| before get_max_size - 1
+09:22:10| before self.dealer_states[size] += 1
+09:22:10| after possible break
+09:22:10| before get_max_size - 1
+09:22:10| before self.dealer_states[size] += 1
+09:22:10| after possible break
+09:22:10| before get_max_size - 1
+09:22:10| before self.dealer_states[size] += 1
+09:22:10| after possible break
+09:22:10| before get_max_size - 1
+09:22:10| before self.dealer_states[size] += 1

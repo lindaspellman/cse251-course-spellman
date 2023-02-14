@@ -24,7 +24,7 @@ from os.path import exists
 #Include cse 251 common Python files
 from cse251 import *
 
-PRIME_PROCESS_COUNT = 1
+PRIME_PROCESS_COUNT = 5
 
 def is_prime(n: int) -> bool:
     """Primality test using 6k+-1 optimization.
@@ -42,8 +42,25 @@ def is_prime(n: int) -> bool:
     return True
 
 # TODO create read_thread function
+def reader_thread(filename, shared_que):
+    with open(filename, 'r') as file:
+        for line in file:
+            shared_que.put(int(line))
+    # all done message
+    for i in range(PRIME_PROCESS_COUNT):
+        shared_que.put(-1)
 
 # TODO create prime_process function
+def process_prime(que, primes):
+    while True: 
+        number = que.get()
+        if number < 0:
+            break 
+        if is_prime(number):
+            primes.append(number)
+    
+    # finish up
+    return 
 
 def create_data_txt(filename):
     # only create if is doesn't exist 
@@ -63,14 +80,24 @@ def main():
     log.start_timer()
 
     # TODO Create shared data structures
+    shared_que = mp.Manager().Queue()
+    primes = mp.Manager().list()
 
     # TODO create reading thread
+    reader = threading.Thread(target=reader_thread, args=(filename, shared_que))
 
     # TODO create prime processes
+    processes = [ mp.Process(target=process_prime, args=(shared_que, primes)) for i in range(PRIME_PROCESS_COUNT)]
 
     # TODO Start them all
+    for p in processes:
+        p.start()
+    reader.start()
 
     # TODO wait for them to complete
+    reader.join()
+    for p in processes:
+        p.join()
 
     log.stop_timer(f'All primes have been found using {PRIME_PROCESS_COUNT} processes')
 

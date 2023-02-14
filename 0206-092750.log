@@ -1,0 +1,64 @@
+09:27:51| before get_max_size - 1
+09:27:51| size: 0
+09:27:51| before self.dealer_states[size] += 1
+09:27:51| size: 0
+09:27:51| after self.dealer_states[size] += 1
+09:27:51| after [size] -= 1
+09:27:51| before get_max_size - 1
+09:27:51| size: 0
+09:27:51| before self.dealer_states[size] += 1
+09:27:51| size: 0
+09:27:51| after self.dealer_states[size] += 1
+09:27:51| after [size] -= 1
+09:27:51| before get_max_size - 1
+09:27:51| size: 0
+09:27:51| before self.dealer_states[size] += 1
+09:27:51| size: 0
+09:27:51| after self.dealer_states[size] += 1
+09:27:51| after [size] -= 1
+09:27:51| before get_max_size - 1
+09:27:51| size: 0
+09:27:51| before self.dealer_states[size] += 1
+09:27:51| size: 0
+09:27:51| after self.dealer_states[size] += 1
+09:27:51| after [size] -= 1
+09:27:51| before get_max_size - 1
+09:27:51| size: 0
+09:27:51| before self.dealer_states[size] += 1
+09:27:51| size: 0
+09:27:51| after self.dealer_states[size] += 1
+09:27:51| after [size] -= 1
+09:27:51| before get_max_size - 1
+09:27:51| size: 0
+09:27:51| before self.dealer_states[size] += 1
+09:27:51| size: 0
+09:27:51| after self.dealer_states[size] += 1
+09:27:51| after [size] -= 1
+09:27:51| before get_max_size - 1
+09:27:51| size: 0
+09:27:51| before self.dealer_states[size] += 1
+09:27:51| size: 0
+09:27:51| after self.dealer_states[size] += 1
+09:27:51| after [size] -= 1
+09:27:51| before get_max_size - 1
+09:27:51| size: 0
+09:27:51| before self.dealer_states[size] += 1
+09:27:51| size: 0
+09:27:51| after self.dealer_states[size] += 1
+09:27:51| after [size] -= 1
+09:27:51| before get_max_size - 1
+09:27:51| size: 0
+09:27:51| before self.dealer_states[size] += 1
+09:27:51| size: 0
+09:27:51| after self.dealer_states[size] += 1
+09:27:51| after [size] -= 1
+09:27:51| before get_max_size - 1
+09:27:51| size: 0
+09:27:51| before self.dealer_states[size] += 1
+09:27:51| size: 0
+09:27:51| after self.dealer_states[size] += 1
+09:27:51| after [size] -= 1
+09:27:51| before get_max_size - 1
+09:27:51| size: 3
+09:27:51| before self.dealer_states[size] += 1
+09:27:51| size: 3
