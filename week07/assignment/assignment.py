@@ -127,8 +127,6 @@ def task_name(url):
     # name = data["people1"]["name"]
 
     if data.status_code == 200:
-    
-    # if name in data:
         return (f"{url} has name <name>", TYPE_NAME)
     else:
         return (f"{url} had an error receiving the information", TYPE_NAME)
