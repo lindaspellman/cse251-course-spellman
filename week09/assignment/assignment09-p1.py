@@ -34,20 +34,39 @@ def solve_path(maze):
         
     # TODO start to add code here
     path = []
-    start_pos = maze.get_start_pos()
-    path.append(start_pos)
-    possible_moves = maze.get_possible_moves(start_pos[0], start_pos[1])
-    for move in possible_moves:
-        if maze.can_move_here(move[0], move[1]):
-            movement = maze.move(move[0], move[1], 'red')
-            path.append(movement)
-        # if new_move == maze.at_end(move[0], move[1]):
-        #     path.append(move)
-            return path
-        else:
-            maze.restore(move[0], move[1])
-            solve_path(maze)
+    start_x, start_y = maze.get_start_pos()
+    maze.move(start_x, start_y, COLOR)
+    path.append((start_x, start_y))
+
+    def _solve(x, y):
+        possible_moves = maze.get_possible_moves(x, y)
+        # if possible_moves's [] returns nothing: it's the end I guess???
+        if possible_moves == []:
+            return False
+        for (x,y) in possible_moves:
+            if maze.at_end(x,y):
+                maze.move(x, y, COLOR)
+                path.append((x, y))
+                return True 
+            if maze.can_move_here(x, y):
+                maze.move(x, y, COLOR)
+                path.append((x, y))
+                if _solve(x,y):
+                    return True
+                # start_pos becomes a possible new move. How to say "don't go back"?
+            # if new_move == maze.at_end(move[0], move[1]):
+            #     path.append(move)
+            maze.restore(x, y)
+
+            if (x,y) in path:
+                path.remove((x,y))
+        
+        return False 
+                
     
+    _solve(start_x, start_y)
+
+    return path 
 
 
 
