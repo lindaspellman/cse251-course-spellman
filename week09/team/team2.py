@@ -61,12 +61,14 @@ Instructions:
 
 import time
 import threading
+from waiter import Waiter 
 
 PHILOSOPHERS = 5
 MAX_MEALS = PHILOSOPHERS * 5
 
 def main():
     # TODO - create the waiter (A class would be best here)
+    waiter = Waiter()
     # TODO - create the forks
     # TODO - create PHILOSOPHERS philosophers
     # TODO - Start them eating and thinking

@@ -2,7 +2,7 @@
 Course: CSE 251 
 Lesson Week: 09
 File: assignment09-p2.py 
-Author: <Add name here>
+Author: Linda Spellman
 
 Purpose: Part 2 of assignment 09, finding the end position in the maze
 
@@ -73,17 +73,133 @@ def get_color():
     current_color_index += 1
     return color
 
-def _solve(maze, x, y):
-    pass
+def _solve(maze, x, y, lock, thread_color):
+    # nonlocal path = [] 
+    global stop 
+    global thread_count 
+    # thread_color = COLOR # how to not declare it???
+    # can you put the lock inside maze.move(...)?
+    # ask Michael and teacher
+    # global lock?
+    # how to set the color once for each thread? 
+    # Thread local storage variable, static function?
+    # nonlocal vs global variables? 
+    if stop == True:
+        return
+    
+    # race condition
+    with lock: 
+        if maze.can_move_here(x, y):
+            maze.move(x, y, thread_color)
+        else:
+            return
+    
+    with lock:
+        possible_moves = maze.get_possible_moves(x, y)
+
+    if possible_moves == []:
+        return
+    
+    main_x, main_y = possible_moves.pop()
+
+    threads = []
+    for (x,y) in possible_moves:
+        new_thread_color = get_color() 
+        # spawn new thread before testing for end
+        with lock:
+            if maze.can_move_here(x,y):
+                new_thread = threading.Thread(target=_solve, args=(maze, x, y, lock, new_thread_color))
+                threads.append(new_thread)
+                thread_count += 1
+        # new_thread.thread_color = get_color() # feasible?
+    
+
+    for t in threads:
+        t.start() 
+
+    # with lock: 
+    if maze.at_end(x,y):
+        maze.move(x, y, thread_color)
+        stop = True 
+        
+    else:
+        # x, y = possible_moves[0]
+        # _solve(maze, x, y)
+        _solve(maze, main_x, main_y, lock, thread_color)
+        
+    # _solve(maze, main_x, main_y, lock, thread_color) 
+
+    if stop == True:
+        return
+
+    for t in threads:
+        t.join()
+    
+    # if stop == True:
+    #     return
+    
+    # return stop 
+    # pass
 
 def solve_find_end(maze):
     """ finds the end position using threads.  Nothing is returned """
     # When one of the threads finds the end position, stop all of them
-    global stop
-    stop = False
+    global stop 
+    stop = False 
+    lock = threading.Lock()
+    color = get_color() 
 
+    start_x, start_y = maze.get_start_pos()
+    _solve(maze, start_x, start_y, lock, color)
 
-    pass
+    # ### INNER FUNCTION HERE!!!!!!!!!!!!!!!???????????????
+    # # breadth-first search is not recursive, depth-first algorithm is
+    # def _solving_maze(x, y, thread_color):
+    #     # nonlocal path = [] 
+    #     global stop 
+    #     # thread_color = COLOR # how to not declare it???
+    #     # can you put the lock inside maze.move(...)?
+    #     # ask Michael and teacher
+    #     # global lock?
+    #     # how to set the color once for each thread? 
+    #     # Thread local storage variable, static function?
+    #     # nonlocal vs global variables? 
+
+    #     if stop == True:
+    #         return 
+        
+    #     # race condition
+    #     if maze.can_move_here(x, y):
+    #         maze.move(x, y, thread_color)
+    #     else:
+    #         return 
+        
+    #     possible_moves = maze.get_possible_moves(x, y)
+
+    #     if possible_moves == []:
+    #         return
+
+    #     threads = []
+    #     for (x,y) in possible_moves[1:]:
+    #         # spawn new thread before testing for end
+    #         new_thread = threading.Thread(target=_solving_maze, args=(x, y, thread_color))
+    #         # threads.append(new_thread)
+    #         # new_thread.thread_color = get_color() # feasible?
+    #         new_thread.start()
+
+    #     if maze.at_end(x,y):
+    #         maze.move(x, y, thread_color)
+    #         stop = True 
+    #     else:
+    #         x, y = possible_moves[0]
+    #         _solving_maze(x, y, thread_color)
+
+    #     for t in threads:
+    #         t.join()
+        
+    #     return
+
+    # _solving_maze(start_x, start_y, get_color())
 
 
 def find_end(log, filename, delay):

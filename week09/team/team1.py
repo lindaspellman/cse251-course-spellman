@@ -55,6 +55,8 @@ import threading
 
 PHILOSOPHERS = 5
 MAX_MEALS = PHILOSOPHERS * 5
+# introduce the concept of a Waiter class
+# switch forks after dropping left fork
 
 def main():
     # TODO - create the forks
