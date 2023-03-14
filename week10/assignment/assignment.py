@@ -2,7 +2,7 @@
 Course: CSE 251
 Lesson Week: 10
 File: assignment.py
-Author: <your name>
+Author: Linda Spellman
 
 Purpose: assignment for week 10 - reader writer problem
 
@@ -58,12 +58,26 @@ Add any comments for me:
 import random
 from multiprocessing.managers import SharedMemoryManager
 import multiprocessing as mp
+import threading 
 
 BUFFER_SIZE = 10
 READERS = 2
 WRITERS = 2
 
+
+def write(semaphore, lock, shared_list):
+    for i in shared_list:
+        i.write()
+
+def read(semaphore, lock, shared_list, count):
+    for i in shared_list:
+        i.read()
+        count += 1
+        print(i, end=', ', flush=True)
+    return count 
+
 def main():
+    # Can treat this like Factory and Dealer - 2 semaphores and 1 lock for the buffer - implementing your own "queue" with size 10 - buffering memory
 
     # This is the number of values that the writer will send to the reader
     items_to_send = random.randint(1000, 10000)
@@ -72,12 +86,40 @@ def main():
     smm.start()
 
     # TODO - Create a ShareableList to be used between the processes
+    shared_list = smm.ShareableList(range(BUFFER_SIZE))
 
     # TODO - Create any lock(s) or semaphore(s) that you feel you need
+    been_read = threading.Semaphore(BUFFER_SIZE)
+    been_written = threading.Semaphore(0) 
 
-    # TODO - create reader and writer processes
+    buffer_lock = threading.Lock() 
+
+    # TODO - create reader and writer processes - 2 of each
+    writers = []
+    writer1 = mp.Process(target=write, args=(been_written, buffer_lock, shared_list, ))
+    writers.append(writer1)
+    writer2 = mp.Process(target=write, args=(been_written, buffer_lock, shared_list, )) 
+    writers.append(writer2)
+
+    readers = []
+    read_count = 0
+    reader1 = mp.Process(target=read, args=(been_read, buffer_lock, read_count, ))
+    readers.append(reader1)
+    reader2 = mp.Process(target=read, args=(been_read, buffer_lock, read_count, ))
+    readers.append(reader2)
 
     # TODO - Start the processes and wait for them to finish
+    for i in writers:
+        i.start()
+
+    for i in readers:
+        i.start()
+
+    for i in writers:
+        i.join()
+
+    for i in readers:
+        i.join() 
 
     print(f'{items_to_send} values sent')
 
